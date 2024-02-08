@@ -68,4 +68,30 @@ public class ClientHandler implements Runnable{
         }
 
     }
+
+    // Removing clients when they leave
+    public void removeClientHandler(){
+        clientHandlers.remove(this);
+        broadcastMessage("SERVER: " + clientUsername + " has left the chat.");
+    }
+
+    // Closing all the streams to avoid null pointer exceptions
+    public void closeEverything(Socket socket, BufferedReader bufferedReader, BufferedWriter bufferedWriter){
+        removeClientHandler();
+        try {
+            if(bufferedReader != null){
+                bufferedReader.close();
+            }
+
+            if(bufferedWriter != null){
+                bufferedWriter.close();
+            }
+
+            if(socket != null){
+                socket.close();
+            }
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
 }
