@@ -73,6 +73,7 @@ public class Client {
         }).start();
     }
 
+    // Method to close all the streams
     public void closeEverything(Socket socket, BufferedReader bufferedReader, BufferedWriter bufferedWriter){
         try {
             if(bufferedReader != null){
@@ -89,6 +90,19 @@ public class Client {
         } catch (IOException e){
             e.printStackTrace();
         }
+    }
+
+
+    public static void main(String[] args) throws IOException {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter your username for the group chat: ");
+        String username = scanner.nextLine();
+
+        Socket socket = new Socket("localhost", 1234);
+        Client client = new Client(socket, username);
+        // Both methods can run at the same time because they have different threads
+        client.listenForMessage();
+        client.sendMessage();
     }
 
 }
