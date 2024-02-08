@@ -51,4 +51,26 @@ public class Client {
         }
     }
 
+    // Method to listen for messages - waiting for messages that are broadcast
+    public void listenForMessage(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String messageFromGroup;
+
+                while(socket.isConnected()){
+                    try {
+                        messageFromGroup = bufferedReader.readLine();
+                        System.out.println(messageFromGroup);
+                    }catch (IOException e){
+                        e.printStackTrace();
+                        closeEverything(socket, bufferedReader, bufferedWriter);
+                    }
+
+                }
+
+            }
+        }).start();
+    }
+
 }
